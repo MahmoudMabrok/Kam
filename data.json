@@ -1,0 +1,779 @@
+{
+  "version": 1,
+  "lastUpdated": "2026-03-25",
+  "cities": [
+    {
+      "id": "EG_ALEXANDRIA",
+      "name": "Alexandria",
+      "country": "Egypt",
+      "countryCode": "EG",
+      "currency": "EGP",
+      "baseIndex": 19.4,
+      "indices": {
+        "costOfLiving": 19.4,
+        "rent": 2.8,
+        "groceries": 20.4,
+        "restaurant": 16.9,
+        "purchasingPower": 20.9
+      },
+      "summary": {
+        "singleMonthly": 16632,
+        "familyMonthly": 61435,
+        "avgSalary": 7093
+      }
+    },
+    {
+      "id": "EG_CAIRO",
+      "name": "Cairo",
+      "country": "Egypt",
+      "countryCode": "EG",
+      "currency": "EGP",
+      "baseIndex": 21.4,
+      "indices": {
+        "costOfLiving": 21.4,
+        "rent": 5.2,
+        "groceries": 21.7,
+        "restaurant": 22.4,
+        "purchasingPower": 24.0
+      },
+      "summary": {
+        "singleMonthly": 16632,
+        "familyMonthly": 61435,
+        "avgSalary": 7093
+      }
+    },
+    {
+      "id": "EG_GIZA",
+      "name": "Giza",
+      "country": "Egypt",
+      "countryCode": "EG",
+      "currency": "EGP",
+      "baseIndex": 18.9,
+      "indices": {
+        "costOfLiving": 18.9,
+        "rent": 3.4,
+        "groceries": 18.7,
+        "restaurant": 16.4,
+        "purchasingPower": 21.2
+      },
+      "summary": {
+        "singleMonthly": 16632,
+        "familyMonthly": 61435,
+        "avgSalary": 7093
+      }
+    },
+    {
+      "id": "DE_BERLIN",
+      "name": "Berlin",
+      "country": "Germany",
+      "countryCode": "DE",
+      "currency": "EUR",
+      "baseIndex": 69.4,
+      "indices": {
+        "costOfLiving": 69.4,
+        "rent": 33.9,
+        "groceries": 63.3,
+        "restaurant": 67.5,
+        "purchasingPower": 128.0
+      },
+      "summary": {
+        "singleMonthly": 996,
+        "familyMonthly": 3448
+      }
+    },
+    {
+      "id": "DE_COLOGNE",
+      "name": "Cologne",
+      "country": "Germany",
+      "countryCode": "DE",
+      "currency": "EUR",
+      "baseIndex": 71.1,
+      "indices": {
+        "costOfLiving": 71.1,
+        "rent": 26.3,
+        "groceries": 66.5,
+        "restaurant": 71.9,
+        "purchasingPower": 137.1
+      },
+      "summary": {
+        "singleMonthly": 996,
+        "familyMonthly": 3448
+      }
+    },
+    {
+      "id": "DE_DUSSELDORF",
+      "name": "Dusseldorf",
+      "country": "Germany",
+      "countryCode": "DE",
+      "currency": "EUR",
+      "baseIndex": 71.9,
+      "indices": {
+        "costOfLiving": 71.9,
+        "rent": 29.4,
+        "groceries": 66.2,
+        "restaurant": 70.3,
+        "purchasingPower": 148.9
+      },
+      "summary": {
+        "singleMonthly": 996,
+        "familyMonthly": 3448
+      }
+    },
+    {
+      "id": "DE_FRANKFURT",
+      "name": "Frankfurt",
+      "country": "Germany",
+      "countryCode": "DE",
+      "currency": "EUR",
+      "baseIndex": 73.1,
+      "indices": {
+        "costOfLiving": 73.1,
+        "rent": 31.3,
+        "groceries": 65.6,
+        "restaurant": 76.4,
+        "purchasingPower": 163.0
+      },
+      "summary": {
+        "singleMonthly": 996,
+        "familyMonthly": 3448
+      }
+    },
+    {
+      "id": "DE_HAMBURG",
+      "name": "Hamburg",
+      "country": "Germany",
+      "countryCode": "DE",
+      "currency": "EUR",
+      "baseIndex": 70.2,
+      "indices": {
+        "costOfLiving": 70.2,
+        "rent": 30.0,
+        "groceries": 64.3,
+        "restaurant": 68.8,
+        "purchasingPower": 143.8
+      },
+      "summary": {
+        "singleMonthly": 996,
+        "familyMonthly": 3448
+      }
+    },
+    {
+      "id": "DE_MUNICH",
+      "name": "Munich",
+      "country": "Germany",
+      "countryCode": "DE",
+      "currency": "EUR",
+      "baseIndex": 75.9,
+      "indices": {
+        "costOfLiving": 75.9,
+        "rent": 40.1,
+        "groceries": 64.7,
+        "restaurant": 79.2,
+        "purchasingPower": 152.4
+      },
+      "summary": {
+        "singleMonthly": 996,
+        "familyMonthly": 3448
+      }
+    },
+    {
+      "id": "DE_NUREMBERG",
+      "name": "Nuremberg",
+      "country": "Germany",
+      "countryCode": "DE",
+      "currency": "EUR",
+      "baseIndex": 68.8,
+      "indices": {
+        "costOfLiving": 68.8,
+        "rent": 21.7,
+        "groceries": 64.6,
+        "restaurant": 71.6,
+        "purchasingPower": 151.1
+      },
+      "summary": {
+        "singleMonthly": 996,
+        "familyMonthly": 3448
+      }
+    },
+    {
+      "id": "DE_STUTTGART",
+      "name": "Stuttgart",
+      "country": "Germany",
+      "countryCode": "DE",
+      "currency": "EUR",
+      "baseIndex": 69.9,
+      "indices": {
+        "costOfLiving": 69.9,
+        "rent": 26.9,
+        "groceries": 65.2,
+        "restaurant": 72.8,
+        "purchasingPower": 177.8
+      },
+      "summary": {
+        "singleMonthly": 996,
+        "familyMonthly": 3448
+      }
+    },
+    {
+      "id": "SA_AD_DAMMAM",
+      "name": "Ad Dammam",
+      "country": "Saudi Arabia",
+      "countryCode": "SA",
+      "currency": "SAR",
+      "baseIndex": 42.9,
+      "indices": {
+        "costOfLiving": 42.9,
+        "rent": 11.9,
+        "groceries": 41.0,
+        "restaurant": 30.3,
+        "purchasingPower": 134.3
+      },
+      "summary": {
+        "singleMonthly": 2929,
+        "familyMonthly": 10703
+      }
+    },
+    {
+      "id": "SA_AL_KHOBAR",
+      "name": "Al Khobar",
+      "country": "Saudi Arabia",
+      "countryCode": "SA",
+      "currency": "SAR",
+      "baseIndex": 48.3,
+      "indices": {
+        "costOfLiving": 48.3,
+        "rent": 14.7,
+        "groceries": 42.8,
+        "restaurant": 42.6,
+        "purchasingPower": 114.3
+      },
+      "summary": {
+        "singleMonthly": 2929,
+        "familyMonthly": 10703
+      }
+    },
+    {
+      "id": "SA_JEDDAH",
+      "name": "Jeddah",
+      "country": "Saudi Arabia",
+      "countryCode": "SA",
+      "currency": "SAR",
+      "baseIndex": 43.8,
+      "indices": {
+        "costOfLiving": 43.8,
+        "rent": 13.3,
+        "groceries": 38.9,
+        "restaurant": 36.0,
+        "purchasingPower": 139.1
+      },
+      "summary": {
+        "singleMonthly": 2929,
+        "familyMonthly": 10703
+      }
+    },
+    {
+      "id": "SA_RIYADH",
+      "name": "Riyadh",
+      "country": "Saudi Arabia",
+      "countryCode": "SA",
+      "currency": "SAR",
+      "baseIndex": 48.0,
+      "indices": {
+        "costOfLiving": 48.0,
+        "rent": 23.8,
+        "groceries": 45.4,
+        "restaurant": 40.9,
+        "purchasingPower": 121.7
+      },
+      "summary": {
+        "singleMonthly": 2929,
+        "familyMonthly": 10703
+      }
+    },
+    {
+      "id": "AE_ABU_DHABI",
+      "name": "Abu Dhabi",
+      "country": "United Arab Emirates",
+      "countryCode": "AE",
+      "currency": "AED",
+      "baseIndex": 52.3,
+      "indices": {
+        "costOfLiving": 52.3,
+        "rent": 43.7,
+        "groceries": 45.5,
+        "restaurant": 58.1,
+        "purchasingPower": 103.7
+      },
+      "summary": {
+        "singleMonthly": 3555,
+        "familyMonthly": 12526
+      }
+    },
+    {
+      "id": "AE_AJMAN",
+      "name": "Ajman",
+      "country": "United Arab Emirates",
+      "countryCode": "AE",
+      "currency": "AED",
+      "baseIndex": 43.8,
+      "indices": {
+        "costOfLiving": 43.8,
+        "rent": 42.6,
+        "groceries": 34.5,
+        "restaurant": 38.2,
+        "purchasingPower": 96.6
+      },
+      "summary": {
+        "singleMonthly": 3555,
+        "familyMonthly": 12526
+      }
+    },
+    {
+      "id": "AE_DUBAI",
+      "name": "Dubai",
+      "country": "United Arab Emirates",
+      "countryCode": "AE",
+      "currency": "AED",
+      "baseIndex": 61.3,
+      "indices": {
+        "costOfLiving": 61.3,
+        "rent": 51.8,
+        "groceries": 46.6,
+        "restaurant": 69.2,
+        "purchasingPower": 128.7
+      },
+      "summary": {
+        "singleMonthly": 3555,
+        "familyMonthly": 12526
+      }
+    },
+    {
+      "id": "AE_RAS_AL_KHAIMAH",
+      "name": "Ras al-Khaimah",
+      "country": "United Arab Emirates",
+      "countryCode": "AE",
+      "currency": "AED",
+      "baseIndex": 53.4,
+      "indices": {
+        "costOfLiving": 53.4,
+        "rent": 19.7,
+        "groceries": 49.0,
+        "restaurant": 48.3,
+        "purchasingPower": 85.4
+      },
+      "summary": {
+        "singleMonthly": 3555,
+        "familyMonthly": 12526
+      }
+    },
+    {
+      "id": "AE_SHARJAH",
+      "name": "Sharjah",
+      "country": "United Arab Emirates",
+      "countryCode": "AE",
+      "currency": "AED",
+      "baseIndex": 50.5,
+      "indices": {
+        "costOfLiving": 50.5,
+        "rent": 21.3,
+        "groceries": 41.7,
+        "restaurant": 38.1,
+        "purchasingPower": 128.5
+      },
+      "summary": {
+        "singleMonthly": 3555,
+        "familyMonthly": 12526
+      }
+    },
+    {
+      "id": "GB_BELFAST",
+      "name": "Belfast",
+      "country": "United Kingdom",
+      "countryCode": "GB",
+      "currency": "GBP",
+      "baseIndex": 67.5,
+      "indices": {
+        "costOfLiving": 67.5,
+        "rent": 25.1,
+        "groceries": 70.2,
+        "restaurant": 75.4,
+        "purchasingPower": 115.8
+      },
+      "summary": {
+        "singleMonthly": 825,
+        "familyMonthly": 2857,
+        "avgSalary": 2461
+      }
+    },
+    {
+      "id": "GB_BIRMINGHAM",
+      "name": "Birmingham",
+      "country": "United Kingdom",
+      "countryCode": "GB",
+      "currency": "GBP",
+      "baseIndex": 68.6,
+      "indices": {
+        "costOfLiving": 68.6,
+        "rent": 29.2,
+        "groceries": 62.9,
+        "restaurant": 73.9,
+        "purchasingPower": 142.1
+      },
+      "summary": {
+        "singleMonthly": 825,
+        "familyMonthly": 2857,
+        "avgSalary": 2461
+      }
+    },
+    {
+      "id": "GB_BRISTOL",
+      "name": "Bristol",
+      "country": "United Kingdom",
+      "countryCode": "GB",
+      "currency": "GBP",
+      "baseIndex": 70.0,
+      "indices": {
+        "costOfLiving": 70.0,
+        "rent": 40.0,
+        "groceries": 64.0,
+        "restaurant": 79.7,
+        "purchasingPower": 122.8
+      },
+      "summary": {
+        "singleMonthly": 825,
+        "familyMonthly": 2857,
+        "avgSalary": 2461
+      }
+    },
+    {
+      "id": "GB_CAMBRIDGE",
+      "name": "Cambridge",
+      "country": "United Kingdom",
+      "countryCode": "GB",
+      "currency": "GBP",
+      "baseIndex": 73.7,
+      "indices": {
+        "costOfLiving": 73.7,
+        "rent": 43.6,
+        "groceries": 66.4,
+        "restaurant": 79.0,
+        "purchasingPower": 133.0
+      },
+      "summary": {
+        "singleMonthly": 825,
+        "familyMonthly": 2857,
+        "avgSalary": 2461
+      }
+    },
+    {
+      "id": "GB_CARDIFF",
+      "name": "Cardiff",
+      "country": "United Kingdom",
+      "countryCode": "GB",
+      "currency": "GBP",
+      "baseIndex": 66.3,
+      "indices": {
+        "costOfLiving": 66.3,
+        "rent": 29.7,
+        "groceries": 64.0,
+        "restaurant": 73.3,
+        "purchasingPower": 123.9
+      },
+      "summary": {
+        "singleMonthly": 825,
+        "familyMonthly": 2857,
+        "avgSalary": 2461
+      }
+    },
+    {
+      "id": "GB_EDINBURGH",
+      "name": "Edinburgh",
+      "country": "United Kingdom",
+      "countryCode": "GB",
+      "currency": "GBP",
+      "baseIndex": 71.4,
+      "indices": {
+        "costOfLiving": 71.4,
+        "rent": 36.0,
+        "groceries": 64.0,
+        "restaurant": 84.1,
+        "purchasingPower": 126.2
+      },
+      "summary": {
+        "singleMonthly": 825,
+        "familyMonthly": 2857,
+        "avgSalary": 2461
+      }
+    },
+    {
+      "id": "GB_GLASGOW",
+      "name": "Glasgow",
+      "country": "United Kingdom",
+      "countryCode": "GB",
+      "currency": "GBP",
+      "baseIndex": 67.5,
+      "indices": {
+        "costOfLiving": 67.5,
+        "rent": 31.9,
+        "groceries": 64.4,
+        "restaurant": 73.0,
+        "purchasingPower": 133.5
+      },
+      "summary": {
+        "singleMonthly": 825,
+        "familyMonthly": 2857,
+        "avgSalary": 2461
+      }
+    },
+    {
+      "id": "GB_LONDON",
+      "name": "London",
+      "country": "United Kingdom",
+      "countryCode": "GB",
+      "currency": "GBP",
+      "baseIndex": 88.8,
+      "indices": {
+        "costOfLiving": 88.8,
+        "rent": 65.5,
+        "groceries": 69.7,
+        "restaurant": 89.9,
+        "purchasingPower": 121.4
+      },
+      "summary": {
+        "singleMonthly": 825,
+        "familyMonthly": 2857,
+        "avgSalary": 2461
+      }
+    },
+    {
+      "id": "GB_MANCHESTER",
+      "name": "Manchester",
+      "country": "United Kingdom",
+      "countryCode": "GB",
+      "currency": "GBP",
+      "baseIndex": 67.4,
+      "indices": {
+        "costOfLiving": 67.4,
+        "rent": 36.8,
+        "groceries": 65.1,
+        "restaurant": 75.1,
+        "purchasingPower": 120.5
+      },
+      "summary": {
+        "singleMonthly": 825,
+        "familyMonthly": 2857,
+        "avgSalary": 2461
+      }
+    },
+    {
+      "id": "GB_OXFORD",
+      "name": "Oxford",
+      "country": "United Kingdom",
+      "countryCode": "GB",
+      "currency": "GBP",
+      "baseIndex": 75.2,
+      "indices": {
+        "costOfLiving": 75.2,
+        "rent": 44.8,
+        "groceries": 66.8,
+        "restaurant": 88.8,
+        "purchasingPower": 125.3
+      },
+      "summary": {
+        "singleMonthly": 825,
+        "familyMonthly": 2857,
+        "avgSalary": 2461
+      }
+    },
+    {
+      "id": "US_AUSTIN_TX",
+      "name": "Austin, TX",
+      "country": "United States",
+      "countryCode": "US",
+      "currency": "USD",
+      "baseIndex": 67.7,
+      "indices": {
+        "costOfLiving": 67.7,
+        "rent": 46.1,
+        "groceries": 70.1,
+        "restaurant": 74.8,
+        "purchasingPower": 164.5
+      },
+      "summary": {
+        "singleMonthly": 1178,
+        "familyMonthly": 4247
+      }
+    },
+    {
+      "id": "US_BOSTON_MA",
+      "name": "Boston, MA",
+      "country": "United States",
+      "countryCode": "US",
+      "currency": "USD",
+      "baseIndex": 85.0,
+      "indices": {
+        "costOfLiving": 85.0,
+        "rent": 72.1,
+        "groceries": 89.3,
+        "restaurant": 89.2,
+        "purchasingPower": 157.3
+      },
+      "summary": {
+        "singleMonthly": 1178,
+        "familyMonthly": 4247
+      }
+    },
+    {
+      "id": "US_CHICAGO_IL",
+      "name": "Chicago, IL",
+      "country": "United States",
+      "countryCode": "US",
+      "currency": "USD",
+      "baseIndex": 75.2,
+      "indices": {
+        "costOfLiving": 75.2,
+        "rent": 52.6,
+        "groceries": 82.2,
+        "restaurant": 82.0,
+        "purchasingPower": 142.9
+      },
+      "summary": {
+        "singleMonthly": 1178,
+        "familyMonthly": 4247
+      }
+    },
+    {
+      "id": "US_HONOLULU_HI",
+      "name": "Honolulu, HI",
+      "country": "United States",
+      "countryCode": "US",
+      "currency": "USD",
+      "baseIndex": 101.4,
+      "indices": {
+        "costOfLiving": 101.4,
+        "rent": 60.9,
+        "groceries": 120.8,
+        "restaurant": 105.8,
+        "purchasingPower": 96.5
+      },
+      "summary": {
+        "singleMonthly": 1178,
+        "familyMonthly": 4247
+      }
+    },
+    {
+      "id": "US_LOS_ANGELES_CA",
+      "name": "Los Angeles, CA",
+      "country": "United States",
+      "countryCode": "US",
+      "currency": "USD",
+      "baseIndex": 81.7,
+      "indices": {
+        "costOfLiving": 81.7,
+        "rent": 68.1,
+        "groceries": 86.0,
+        "restaurant": 89.2,
+        "purchasingPower": 103.1
+      },
+      "summary": {
+        "singleMonthly": 1178,
+        "familyMonthly": 4247
+      }
+    },
+    {
+      "id": "US_MIAMI_FL",
+      "name": "Miami, FL",
+      "country": "United States",
+      "countryCode": "US",
+      "currency": "USD",
+      "baseIndex": 82.8,
+      "indices": {
+        "costOfLiving": 82.8,
+        "rent": 65.5,
+        "groceries": 88.1,
+        "restaurant": 99.3,
+        "purchasingPower": 107.9
+      },
+      "summary": {
+        "singleMonthly": 1178,
+        "familyMonthly": 4247
+      }
+    },
+    {
+      "id": "US_NEW_YORK_NY",
+      "name": "New York, NY",
+      "country": "United States",
+      "countryCode": "US",
+      "currency": "USD",
+      "baseIndex": 100.0,
+      "indices": {
+        "costOfLiving": 100.0,
+        "rent": 100.0,
+        "groceries": 100.0,
+        "restaurant": 100.0,
+        "purchasingPower": 100.0
+      },
+      "summary": {
+        "singleMonthly": 1178,
+        "familyMonthly": 4247
+      }
+    },
+    {
+      "id": "US_SAN_FRANCISCO_CA",
+      "name": "San Francisco, CA",
+      "country": "United States",
+      "countryCode": "US",
+      "currency": "USD",
+      "baseIndex": 96.5,
+      "indices": {
+        "costOfLiving": 96.5,
+        "rent": 75.5,
+        "groceries": 104.1,
+        "restaurant": 103.4,
+        "purchasingPower": 160.2
+      },
+      "summary": {
+        "singleMonthly": 1178,
+        "familyMonthly": 4247
+      }
+    },
+    {
+      "id": "US_SEATTLE_WA",
+      "name": "Seattle, WA",
+      "country": "United States",
+      "countryCode": "US",
+      "currency": "USD",
+      "baseIndex": 88.5,
+      "indices": {
+        "costOfLiving": 88.5,
+        "rent": 57.8,
+        "groceries": 96.6,
+        "restaurant": 87.7,
+        "purchasingPower": 168.1
+      },
+      "summary": {
+        "singleMonthly": 1178,
+        "familyMonthly": 4247
+      }
+    },
+    {
+      "id": "US_WASHINGTON_DC",
+      "name": "Washington, DC",
+      "country": "United States",
+      "countryCode": "US",
+      "currency": "USD",
+      "baseIndex": 87.6,
+      "indices": {
+        "costOfLiving": 87.6,
+        "rent": 65.9,
+        "groceries": 89.3,
+        "restaurant": 92.5,
+        "purchasingPower": 151.7
+      },
+      "summary": {
+        "singleMonthly": 1178,
+        "familyMonthly": 4247
+      }
+    }
+  ]
+}
