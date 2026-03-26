@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import tools.mo3ta.kam.data.City
 import tools.mo3ta.kam.data.CityRepository
+import tools.mo3ta.kam.analytics.logSearch
 
 class CityListViewModel(
     private val repository: CityRepository
@@ -41,5 +42,8 @@ class CityListViewModel(
 
     fun onSearchQueryChanged(query: String) {
         _searchQuery.value = query
+        if (query.length >= 3) {
+            logSearch(query)
+        }
     }
 }

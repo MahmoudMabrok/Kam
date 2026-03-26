@@ -9,6 +9,8 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeHotReload)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.googleServices)
+    alias(libs.plugins.firebaseCrashlytics)
 }
 
 kotlin {
@@ -46,6 +48,8 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.firebase.analytics)
+            implementation(libs.firebase.crashlytics)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -93,6 +97,10 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -103,6 +111,7 @@ android {
 
 dependencies {
     debugImplementation(libs.compose.uiTooling)
+    implementation(platform(libs.firebase.bom))
 }
 
 compose.desktop {

@@ -9,6 +9,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import tools.mo3ta.kam.data.City
 import tools.mo3ta.kam.data.CityRepository
+import tools.mo3ta.kam.analytics.logCitySelected
+import tools.mo3ta.kam.analytics.logConversion
+import tools.mo3ta.kam.analytics.logSwapCities
 
 enum class LifestyleLevel(val label: String, val emoji: String) {
     BASIC("Basic", "🏠"),
@@ -77,21 +80,29 @@ class ConvertViewModel(
 
     fun onFromCitySelected(city: City) {
         _uiState.update { it.copy(fromCity = city) }
+        logCitySelected(city.name, "convert")
         recalculate()
     }
 
     fun onToCitySelected(city: City) {
         _uiState.update { it.copy(toCity = city) }
+        logCitySelected(city.name, "convert")
         recalculate()
     }
 
     fun onSalaryChanged(salary: String) {
-        _uiState.update { it.copy(salary = salary) }
+        val filtered = salary.filter { it.isDigit() || it == '.' }
+        _uiState.update { it.copy(salary = filtered) }
         recalculate()
     }
 
     fun swapCities() {
+        val state = _uiState.value
         _uiState.update { it.copy(fromCity = it.toCity, toCity = it.fromCity) }
+        logSwapCities(
+            fromCity = state.fromCity?.name ?: "none",
+            toCity = state.toCity?.name ?: "none"
+        )
         recalculate()
     }
 
@@ -153,6 +164,8 @@ class ConvertViewModel(
                 )
             )
         }
+
+        logConversion(from.name, to.name, salary)
     }
 
     companion object {

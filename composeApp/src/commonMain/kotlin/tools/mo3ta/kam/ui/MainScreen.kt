@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -25,6 +26,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import tools.mo3ta.kam.analytics.logScreenView
+import tools.mo3ta.kam.analytics.logTabSwitch
 import tools.mo3ta.kam.data.CityRepository
 import tools.mo3ta.kam.viewmodel.CityListViewModel
 import tools.mo3ta.kam.viewmodel.CompareViewModel
@@ -46,6 +49,13 @@ fun MainScreen() {
         TabItem("Convert", "💱", 1),
         TabItem("Compare", "⚖️", 2)
     )
+
+    // Log tab switches and screen views
+    LaunchedEffect(selectedTab) {
+        val tabName = tabs[selectedTab].label
+        logTabSwitch(tabName)
+        logScreenView(tabName)
+    }
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,

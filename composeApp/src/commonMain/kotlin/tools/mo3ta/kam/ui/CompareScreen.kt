@@ -185,7 +185,7 @@ private fun SalaryInputColumn(
                 onValueChange = onSalaryChanged,
                 label = { Text("Salary") },
                 singleLine = true,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 modifier = Modifier.fillMaxWidth()
             )
         }

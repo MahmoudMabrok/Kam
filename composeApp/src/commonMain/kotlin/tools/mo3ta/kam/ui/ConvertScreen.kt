@@ -124,7 +124,7 @@ fun ConvertScreen(viewModel: ConvertViewModel) {
                     Text("Your Monthly Salary in ${state.fromCity?.currency ?: "origin currency"}")
                 },
                 singleLine = true,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 modifier = Modifier.fillMaxWidth()
             )
 

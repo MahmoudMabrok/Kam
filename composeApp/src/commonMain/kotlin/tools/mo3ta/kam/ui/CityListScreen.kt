@@ -51,6 +51,7 @@ import tools.mo3ta.kam.data.Indices
 import tools.mo3ta.kam.data.Summary
 import tools.mo3ta.kam.ui.components.CostIndexBadge
 import tools.mo3ta.kam.viewmodel.CityListViewModel
+import tools.mo3ta.kam.analytics.logCityCardExpanded
 
 private fun countryFlag(countryCode: String): String {
     if (countryCode.length != 2) return "🏳️"
@@ -262,7 +263,12 @@ private fun CityCard(city: City) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { expanded = !expanded }
+                    .clickable {
+                        expanded = !expanded
+                        if (expanded) {
+                            logCityCardExpanded(city.name, city.country)
+                        }
+                    }
                     .padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {

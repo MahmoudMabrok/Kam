@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import tools.mo3ta.kam.data.City
 import tools.mo3ta.kam.data.CityRepository
+import tools.mo3ta.kam.analytics.logCitySelected
+import tools.mo3ta.kam.analytics.logComparison
 
 data class CompareUiState(
     val cities: List<City> = emptyList(),
@@ -53,21 +55,25 @@ class CompareViewModel(
 
     fun onCity1Selected(city: City) {
         _uiState.update { it.copy(city1 = city) }
+        logCitySelected(city.name, "compare")
         recalculate()
     }
 
     fun onCity2Selected(city: City) {
         _uiState.update { it.copy(city2 = city) }
+        logCitySelected(city.name, "compare")
         recalculate()
     }
 
     fun onSalary1Changed(salary: String) {
-        _uiState.update { it.copy(salary1 = salary) }
+        val filtered = salary.filter { it.isDigit() || it == '.' }
+        _uiState.update { it.copy(salary1 = filtered) }
         recalculate()
     }
 
     fun onSalary2Changed(salary: String) {
-        _uiState.update { it.copy(salary2 = salary) }
+        val filtered = salary.filter { it.isDigit() || it == '.' }
+        _uiState.update { it.copy(salary2 = filtered) }
         recalculate()
     }
 
@@ -117,5 +123,7 @@ class CompareViewModel(
                 )
             )
         }
+
+        logComparison(c1.name, s1, c2.name, s2)
     }
 }
