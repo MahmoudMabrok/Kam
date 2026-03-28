@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import tools.mo3ta.kam.ui.LocalKamStrings
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -81,7 +82,7 @@ fun CityPickerDropdown(
                         OutlinedTextField(
                             value = searchText,
                             onValueChange = { searchText = it },
-                            placeholder = { Text("Search city...") },
+                            placeholder = { Text(LocalKamStrings.current.searchCityPlaceholder) },
                             singleLine = true,
                             modifier = Modifier
                                 .fillMaxWidth()

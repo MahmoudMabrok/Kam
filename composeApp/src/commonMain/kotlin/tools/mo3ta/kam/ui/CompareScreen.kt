@@ -46,6 +46,7 @@ import tools.mo3ta.kam.viewmodel.CompareViewModel
 
 @Composable
 fun CompareScreen(viewModel: CompareViewModel) {
+    val strings = LocalKamStrings.current
     val state by viewModel.uiState.collectAsState()
     val scrollState = rememberScrollState()
 
@@ -71,12 +72,12 @@ fun CompareScreen(viewModel: CompareViewModel) {
         ) {
             Column {
                 Text(
-                    text = "⚖️ Compare Salaries",
+                    text = strings.compareTitle,
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "Normalize salaries against city cost indices",
+                    text = strings.compareDesc,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -91,7 +92,7 @@ fun CompareScreen(viewModel: CompareViewModel) {
         ) {
             SalaryInputColumn(
                 modifier = Modifier.weight(1f),
-                title = "Option A",
+                title = strings.optionA,
                 titleColor = MaterialTheme.colorScheme.primary,
                 city = state.city1,
                 salary = state.salary1,
@@ -102,7 +103,7 @@ fun CompareScreen(viewModel: CompareViewModel) {
             )
             SalaryInputColumn(
                 modifier = Modifier.weight(1f),
-                title = "Option B",
+                title = strings.optionB,
                 titleColor = MaterialTheme.colorScheme.secondary,
                 city = state.city2,
                 salary = state.salary2,
@@ -174,7 +175,7 @@ private fun SalaryInputColumn(
             }
             Spacer(modifier = Modifier.height(8.dp))
             CityPickerDropdown(
-                label = "City",
+                label = LocalKamStrings.current.cityLabel,
                 selectedCity = city,
                 cities = cities,
                 onCitySelected = onCitySelected
@@ -183,7 +184,7 @@ private fun SalaryInputColumn(
             OutlinedTextField(
                 value = salary,
                 onValueChange = onSalaryChanged,
-                label = { Text("Salary") },
+                label = { Text(LocalKamStrings.current.salaryInputLabel) },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 modifier = Modifier.fillMaxWidth()
@@ -210,7 +211,7 @@ private fun CompareResultCard(
     ) {
         Column(modifier = Modifier.padding(20.dp)) {
             Text(
-                text = "📊 Purchasing Power Comparison",
+                text = LocalKamStrings.current.comparisonResultTitle,
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.secondary
@@ -242,10 +243,11 @@ private fun CompareResultCard(
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f))
             Spacer(modifier = Modifier.height(12.dp))
 
+            val strings = LocalKamStrings.current
             val verdict = when (result.winner) {
-                1 -> "🏆 $city1Name wins with ${"%.1f".format(result.percentageBetter)}% more purchasing power"
-                2 -> "🏆 $city2Name wins with ${"%.1f".format(result.percentageBetter)}% more purchasing power"
-                else -> "🤝 Both salaries have equal purchasing power"
+                1 -> strings.comparisonVerdictWinner(city1Name, result.percentageBetter)
+                2 -> strings.comparisonVerdictWinner(city2Name, result.percentageBetter)
+                else -> strings.comparisonVerdictEqual
             }
 
             Box(
@@ -319,7 +321,7 @@ private fun NormBar(
             textAlign = TextAlign.Center
         )
         Text(
-            text = "Power: ${"%.1f".format(normalized)}",
+            text = LocalKamStrings.current.powerLabel(normalized),
             style = MaterialTheme.typography.labelSmall,
             color = color,
             fontWeight = FontWeight.Bold,

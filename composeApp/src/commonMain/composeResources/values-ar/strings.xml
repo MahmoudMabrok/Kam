@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">كم</string>
+    <string name="tab_cities">المدن</string>
+    <string name="tab_convert">تحويل</string>
+    <string name="tab_compare">مقارنة</string>
+    <string name="tab_settings">الإعدادات</string>
+    
+    <string name="settings_title">الإعدادات</string>
+    <string name="settings_dark_mode">الوضع الداكن</string>
+    <string name="settings_language">اللغة</string>
+    <string name="settings_credits">الحقوق</string>
+    <string name="settings_numbeo_desc">يتم جلب البيانات يدوياً من موقع Numbeo.</string>
+    
+    <string name="onboarding_welcome">مرحباً بك في "كم"</string>
+    <string name="onboarding_welcome_desc">افهم قوتك الشرائية الحقيقية في مدن مختلفة حول العالم.</string>
+    <string name="onboarding_converter">محول الرواتب</string>
+    <string name="onboarding_converter_desc">احسب الراتب المعادل الذي تحتاجه في مدينة الوجهة للحفاظ على مستوى معيشتك الحالي.</string>
+    <string name="onboarding_compare">مقارنة الرواتب</string>
+    <string name="onboarding_compare_desc">قارن مباشرة بين عرضين وظيفيين مختلفين في مدن مختلفة لمعرفة أيهما يمنحك قوة شرائية أكبر.</string>
+    <string name="onboarding_data">مصدر البيانات</string>
+    <string name="onboarding_data_desc">يتم توفير جميع بيانات تكلفة المعيشة من قبل Numbeo. استخدمها لاتخاذ قرارات مدروسة حول خطوتك القادمة.</string>
+    <string name="onboarding_get_started">ابدأ الآن</string>
+</resources>

@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Kam</string>
+    <string name="tab_cities">Cities</string>
+    <string name="tab_convert">Convert</string>
+    <string name="tab_compare">Compare</string>
+    <string name="tab_settings">Settings</string>
+    
+    <string name="settings_title">Settings</string>
+    <string name="settings_dark_mode">Dark Mode</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_credits">Credits</string>
+    <string name="settings_numbeo_desc">Data is manually sourced from Numbeo.</string>
+    
+    <string name="onboarding_welcome">Welcome to Kam</string>
+    <string name="onboarding_welcome_desc">Understand your real purchasing power across different cities around the world.</string>
+    <string name="onboarding_converter">Salary Converter</string>
+    <string name="onboarding_converter_desc">Calculate the equivalent salary you need in a destination city to maintain your current lifestyle.</string>
+    <string name="onboarding_compare">Salary Comparison</string>
+    <string name="onboarding_compare_desc">Directly compare two different salary offers in different cities to see which one gives you more power.</string>
+    <string name="onboarding_data">Data Source</string>
+    <string name="onboarding_data_desc">All cost of living data is provided by Numbeo. Use it to make informed decisions about your next move.</string>
+    <string name="onboarding_get_started">Get Started</string>
+</resources>

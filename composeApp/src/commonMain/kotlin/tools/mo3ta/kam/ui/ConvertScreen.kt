@@ -47,6 +47,7 @@ import tools.mo3ta.kam.viewmodel.LifestyleLevel
 
 @Composable
 fun ConvertScreen(viewModel: ConvertViewModel) {
+    val strings = LocalKamStrings.current
     val state by viewModel.uiState.collectAsState()
     val scrollState = rememberScrollState()
 
@@ -73,12 +74,12 @@ fun ConvertScreen(viewModel: ConvertViewModel) {
         ) {
             Column {
                 Text(
-                    text = "💱 Salary Converter",
+                    text = strings.convertTitle,
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "Understand your real purchasing power across cities",
+                    text = strings.convertDesc,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -91,7 +92,7 @@ fun ConvertScreen(viewModel: ConvertViewModel) {
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             CityPickerDropdown(
-                label = "Your Current City",
+                label = strings.currentCityLabel,
                 selectedCity = state.fromCity,
                 cities = state.cities,
                 onCitySelected = viewModel::onFromCitySelected
@@ -111,7 +112,7 @@ fun ConvertScreen(viewModel: ConvertViewModel) {
             }
 
             CityPickerDropdown(
-                label = "Destination City",
+                label = strings.destinationCityLabel,
                 selectedCity = state.toCity,
                 cities = state.cities,
                 onCitySelected = viewModel::onToCitySelected
@@ -121,7 +122,7 @@ fun ConvertScreen(viewModel: ConvertViewModel) {
                 value = state.salary,
                 onValueChange = viewModel::onSalaryChanged,
                 label = {
-                    Text("Your Monthly Salary in ${state.fromCity?.currency ?: "origin currency"}")
+                    Text(strings.salaryLabel(state.fromCity?.currency ?: "origin currency"))
                 },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -159,12 +160,13 @@ private fun ResultPanel(
     fromCurrency: String,
     toCurrency: String
 ) {
+    val strings = LocalKamStrings.current
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
 
         // ── Scenario A: If you move with the same salary ─────────────────────
         ScenarioCard(
-            label = "📦 Scenario A — Same salary, you move",
-            sublabel = "If you keep earning ${salary.toLong()} $fromCurrency but relocate to $toCityName",
+            label = strings.scenarioASameSalary,
+            sublabel = strings.scenarioASublabel(salary.toLong(), fromCurrency, toCityName),
             accentColor = if (result.purchasingPowerChangePct < 0)
                 Color(0xFFEF5350) else Color(0xFF66BB6A),
             content = {
@@ -182,9 +184,9 @@ private fun ResultPanel(
                 val color = if (result.purchasingPowerChangePct >= 0)
                     Color(0xFF66BB6A) else Color(0xFFEF5350)
                 val verdict = if (result.purchasingPowerChangePct >= 0)
-                    "✅ Moving there with the same salary improves your lifestyle."
+                    strings.scenarioAVerdictPositive
                 else
-                    "⚠️ Moving there with the same salary reduces your lifestyle."
+                    strings.scenarioAVerdictNegative
                 VerdictBox(
                     color = color,
                     text = "$verdict  ($sign${"%.1f".format(result.purchasingPowerChangePct)}%)"
@@ -194,8 +196,8 @@ private fun ResultPanel(
 
         // ── Scenario B: Breakeven — salary you'd need ──────────────────────
         ScenarioCard(
-            label = "🎯 Scenario B — Maintain your lifestyle",
-            sublabel = "The salary you'd need in $toCityName to live exactly as you do now",
+            label = strings.scenarioBMaintainLifestyle,
+            sublabel = strings.scenarioBSublabel(toCityName),
             accentColor = MaterialTheme.colorScheme.primary,
             content = {
                 Row(
@@ -224,13 +226,13 @@ private fun ResultPanel(
                     )
                     Column(horizontalAlignment = Alignment.End) {
                         Text(
-                            text = "${result.equivalentSalary.toLong()} $toCurrency",
+                            text = strings.scenarioBEquivalent(result.equivalentSalary.toLong(), toCurrency),
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.ExtraBold,
                             color = MaterialTheme.colorScheme.primary
                         )
                         Text(
-                            text = "needed in $toCityName",
+                            text = strings.scenarioBNeededIn(toCityName),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             textAlign = TextAlign.End
@@ -250,9 +252,9 @@ private fun ResultPanel(
                 VerdictBox(
                     color = if (isCheaper) Color(0xFF66BB6A) else Color(0xFFFF7043),
                     text = if (isCheaper)
-                        "💰 $toCityName is cheaper — you'd need $sign${"%.1f".format(result.costOfLivingGapPct)}% of your salary"
+                        strings.costOfLivingGapCheaper(toCityName, result.costOfLivingGapPct)
                     else
-                        "📈 $toCityName is more expensive — requires $sign${"%.1f".format(result.costOfLivingGapPct)}% more salary"
+                        strings.costOfLivingGapExpensive(toCityName, result.costOfLivingGapPct)
                 )
             }
         )

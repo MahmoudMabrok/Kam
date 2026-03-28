@@ -66,6 +66,7 @@ private fun countryFlag(countryCode: String): String {
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CityListScreen(viewModel: CityListViewModel) {
+    val strings = LocalKamStrings.current
     val groupedCities by viewModel.groupedCities.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
     val focusRequester = remember { FocusRequester() }
@@ -95,14 +96,14 @@ fun CityListScreen(viewModel: CityListViewModel) {
         ) {
             Column {
                 Text(
-                    text = "🌍 Cities",
+                    text = strings.citiesTitle,
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onBackground
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "${groupedCities.values.sumOf { it.size }} cities across ${groupedCities.size} countries",
+                    text = strings.citiesCountTemplate(groupedCities.values.sumOf { it.size }, groupedCities.size),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -110,7 +111,7 @@ fun CityListScreen(viewModel: CityListViewModel) {
                 OutlinedTextField(
                     value = searchQuery,
                     onValueChange = viewModel::onSearchQueryChanged,
-                    placeholder = { Text("Search cities or countries...") },
+                    placeholder = { Text(strings.searchPlaceholder) },
                     singleLine = true,
                     shape = RoundedCornerShape(16.dp),
                     modifier = Modifier
@@ -176,7 +177,7 @@ private fun CountryHeader(
             )
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                text = "$cityCount cities",
+                text = "${cityCount} ${LocalKamStrings.current.tabCities}",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -189,18 +190,18 @@ private fun CountryHeader(
         ) {
             SummaryChip(
                 emoji = "👤",
-                label = "Single",
+                label = LocalKamStrings.current.singleLabel,
                 value = "${summary.singleMonthly.toInt()} $currency/mo"
             )
             SummaryChip(
                 emoji = "👨‍👩‍👧",
-                label = "Family",
+                label = LocalKamStrings.current.familyLabel,
                 value = "${summary.familyMonthly.toInt()} $currency/mo"
             )
             summary.avgSalary?.let {
                 SummaryChip(
                     emoji = "💼",
-                    label = "Avg salary",
+                    label = LocalKamStrings.current.avgSalaryLabel,
                     value = "${it.toInt()} $currency"
                 )
             }
@@ -338,7 +339,7 @@ private fun CityCard(city: City) {
                         modifier = Modifier.padding(bottom = 10.dp)
                     )
                     Text(
-                        text = "Cost Indices",
+                        text = LocalKamStrings.current.costIndicesTitle,
                         style = MaterialTheme.typography.labelMedium,
                         fontWeight = FontWeight.SemiBold,
                         color = MaterialTheme.colorScheme.primary,
@@ -353,12 +354,13 @@ private fun CityCard(city: City) {
 
 @Composable
 private fun IndicesGrid(indices: Indices) {
+    val strings = LocalKamStrings.current
     val rows = listOf(
-        Triple("🛒", "Cost of Living", indices.costOfLiving),
-        Triple("🏠", "Rent", indices.rent),
-        Triple("🥦", "Groceries", indices.groceries),
-        Triple("🍽️", "Restaurant", indices.restaurant),
-        Triple("💪", "Purchasing Power", indices.purchasingPower)
+        Triple("🛒", strings.indexCOL, indices.costOfLiving),
+        Triple("🏠", strings.indexRent, indices.rent),
+        Triple("🥦", strings.indexGroceries, indices.groceries),
+        Triple("🍽️", strings.indexRestaurant, indices.restaurant),
+        Triple("💪", strings.indexPurchasingPower, indices.purchasingPower)
     )
 
     Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {

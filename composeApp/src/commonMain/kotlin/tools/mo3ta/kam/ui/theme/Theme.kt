@@ -5,7 +5,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
+import tools.mo3ta.kam.ui.ArStrings
+import tools.mo3ta.kam.ui.EnStrings
+import tools.mo3ta.kam.ui.LocalKamStrings
 
 private val Teal200 = Color(0xFF80CBC4)
 private val Teal400 = Color(0xFF26A69A)
@@ -67,12 +71,16 @@ private val LightColorScheme = lightColorScheme(
 @Composable
 fun KamTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
+    locale: String = "en",
     content: @Composable () -> Unit
 ) {
     val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
+    val strings = if (locale == "ar") ArStrings else EnStrings
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        content = content
-    )
+    CompositionLocalProvider(LocalKamStrings provides strings) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            content = content
+        )
+    }
 }
