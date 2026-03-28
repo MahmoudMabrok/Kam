@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
+import androidx.compose.ui.window.PopupProperties
 import tools.mo3ta.kam.data.City
 
 private fun countryFlag(countryCode: String): String {
@@ -65,7 +66,8 @@ fun CityPickerDropdown(
 
         if (expanded) {
             Popup(
-                onDismissRequest = { expanded = false }
+                onDismissRequest = { expanded = false },
+                properties = PopupProperties(focusable = true)
             ) {
                 Surface(
                     shape = MaterialTheme.shapes.medium,
