@@ -82,12 +82,20 @@ android {
     namespace = "tools.mo3ta.kam"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
+    bundle {
+        language {
+            // Specifies that language resources should be packaged
+            // with the base and dynamic feature APKs, preventing splitting.
+            enableSplit = false
+        }
+    }
+
     defaultConfig {
         applicationId = "tools.mo3ta.kam"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.1"
     }
     packaging {
         resources {

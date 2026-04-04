@@ -128,7 +128,14 @@ fun SettingsScreen(viewModel: SettingsViewModel) {
                     )
                     Spacer(modifier = Modifier.height(12.dp))
                     TextButton(
-                        onClick = { uriHandler.openUri("https://www.numbeo.com/") }
+                        onClick = {
+                            try {
+                                uriHandler.openUri("https://www.numbeo.com/")
+                            } catch (e: Exception) {
+                                // Fallback or log if needed
+                                println("Error opening URI: ${e.message}")
+                            }
+                        }
                     ) {
                         Text(strings.visitNumbeo, color = MaterialTheme.colorScheme.primary)
                     }
