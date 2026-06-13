@@ -3,6 +3,10 @@ name: Android CD
 on:
   workflow_dispatch:
     inputs:
+      version_name:
+        description: 'Version Name (e.g. 1.2). Leave empty to keep current.'
+        required: false
+        type: string
       build_type:
         description: 'Build Type'
         required: true
@@ -10,7 +14,7 @@ on:
         options:
           - apk
           - aab
-        default: apk
+        default: aab
       upload_to_play:
         description: 'Upload to Google Play Console'
         required: false
@@ -27,6 +31,9 @@ on:
           - production
         default: internal
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -40,6 +47,30 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: 'gradle'
+
+      - name: Bump version
+        id: bump_version
+        run: |
+          GRADLE_FILE="composeApp/build.gradle.kts"
+
+          # Auto-increase the build version (versionCode) by 2
+          CURRENT_CODE=$(grep -oP 'versionCode\s*=\s*\K[0-9]+' "$GRADLE_FILE" | head -n1)
+          NEW_CODE=$((CURRENT_CODE + 2))
+          sed -i "s/versionCode\s*=\s*$CURRENT_CODE/versionCode = $NEW_CODE/" "$GRADLE_FILE"
+          echo "Bumped versionCode: $CURRENT_CODE -> $NEW_CODE"
+
+          # Update versionName when provided as input
+          VERSION_NAME="${{ github.event.inputs.version_name }}"
+          if [ -n "$VERSION_NAME" ]; then
+            sed -i "s/versionName\s*=\s*\".*\"/versionName = \"$VERSION_NAME\"/" "$GRADLE_FILE"
+            echo "Updated versionName to: $VERSION_NAME"
+          else
+            VERSION_NAME=$(grep -oP 'versionName\s*=\s*"\K[^"]+' "$GRADLE_FILE" | head -n1)
+            echo "Kept existing versionName: $VERSION_NAME"
+          fi
+
+          echo "version_code=$NEW_CODE" >> "$GITHUB_OUTPUT"
+          echo "version_name=$VERSION_NAME" >> "$GITHUB_OUTPUT"
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
@@ -96,3 +127,16 @@ jobs:
           releaseFiles: composeApp/build/outputs/bundle/release/*.aab
           track: ${{ github.event.inputs.track }}
           status: completed
+
+      - name: Commit version bump
+        if: ${{ success() }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add composeApp/build.gradle.kts
+          if git diff --cached --quiet; then
+            echo "No version changes to commit."
+          else
+            git commit -m "ci: bump version to ${{ steps.bump_version.outputs.version_name }} (${{ steps.bump_version.outputs.version_code }})"
+            git push
+          fi
