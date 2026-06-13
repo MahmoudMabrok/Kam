@@ -50,14 +50,19 @@ jobs:
 
       - name: Bump version
         id: bump_version
+        env:
+          # Base offset added to the workflow run number to form the versionCode.
+          VERSION_CODE_BASE: 10
         run: |
           GRADLE_FILE="composeApp/build.gradle.kts"
 
-          # Auto-increase the build version (versionCode) by 2
+          # Derive the versionCode from the workflow run number (github.run_number
+          # only ever increases), offset by the base. This stays strictly
+          # increasing across runs without depending on the committed value.
           CURRENT_CODE=$(grep -oP 'versionCode\s*=\s*\K[0-9]+' "$GRADLE_FILE" | head -n1)
-          NEW_CODE=$((CURRENT_CODE + 2))
+          NEW_CODE=$((VERSION_CODE_BASE + ${{ github.run_number }}))
           sed -i "s/versionCode\s*=\s*$CURRENT_CODE/versionCode = $NEW_CODE/" "$GRADLE_FILE"
-          echo "Bumped versionCode: $CURRENT_CODE -> $NEW_CODE"
+          echo "Set versionCode: $CURRENT_CODE -> $NEW_CODE (base $VERSION_CODE_BASE + run #${{ github.run_number }})"
 
           # Update versionName when provided as input
           VERSION_NAME="${{ github.event.inputs.version_name }}"
