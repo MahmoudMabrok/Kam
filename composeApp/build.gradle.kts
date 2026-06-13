@@ -137,6 +137,7 @@ android {
 dependencies {
     debugImplementation(libs.compose.uiTooling)
     implementation(platform(libs.firebase.bom))
+    implementation(libs.androidx.fragment)
 }
 
 compose.desktop {
