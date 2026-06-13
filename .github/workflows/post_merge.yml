@@ -1,0 +1,71 @@
+name: Post Merge
+
+# Runs after a pull request is merged into main:
+#   1. Deletes the merged head branch.
+#   2. Increments the versionCode in composeApp/build.gradle.kts.
+#   3. Commits and pushes the bump back to main.
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  post-merge:
+    # Only run for PRs that were actually merged (not just closed).
+    if: ${{ github.event.pull_request.merged == true }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete merged branch
+        # Skip forks (head repo differs) and the default branch.
+        if: >-
+          ${{ github.event.pull_request.head.repo.full_name == github.repository &&
+              github.event.pull_request.head.ref != github.event.repository.default_branch }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const ref = `heads/${context.payload.pull_request.head.ref}`;
+            try {
+              await github.rest.git.deleteRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref,
+              });
+              core.info(`Deleted branch: ${context.payload.pull_request.head.ref}`);
+            } catch (error) {
+              core.info(`Could not delete branch (may already be gone): ${error.message}`);
+            }
+
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Bump versionCode
+        id: bump
+        run: |
+          GRADLE_FILE="composeApp/build.gradle.kts"
+
+          CURRENT_CODE=$(grep -oP 'versionCode\s*=\s*\K[0-9]+' "$GRADLE_FILE" | head -n1)
+          NEW_CODE=$((CURRENT_CODE + 1))
+          sed -i "s/versionCode\s*=\s*$CURRENT_CODE/versionCode = $NEW_CODE/" "$GRADLE_FILE"
+          echo "Bumped versionCode: $CURRENT_CODE -> $NEW_CODE"
+
+          echo "version_code=$NEW_CODE" >> "$GITHUB_OUTPUT"
+
+      - name: Commit and push version bump
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add composeApp/build.gradle.kts
+          if git diff --cached --quiet; then
+            echo "No version changes to commit."
+          else
+            git commit -m "ci: bump versionCode to ${{ steps.bump.outputs.version_code }} [skip ci]"
+            git push origin main
+          fi
