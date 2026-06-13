@@ -50,20 +50,16 @@ jobs:
 
       - name: Bump version
         id: bump_version
-        env:
-          # Floor that keeps the generated versionCode safely above any value
-          # Google Play may already have used for this package.
-          VERSION_CODE_BASE: 1000
         run: |
           GRADLE_FILE="composeApp/build.gradle.kts"
 
-          # Derive a strictly-increasing versionCode from the workflow run number
-          # (github.run_number only ever increases), offset by a base so it can
-          # never collide with a versionCode already published on Play.
+          # Auto-increase the build version (versionCode) by 2 from the value
+          # committed in the gradle file. It is committed back on success, so it
+          # stays strictly increasing from the starting point set in the repo.
           CURRENT_CODE=$(grep -oP 'versionCode\s*=\s*\K[0-9]+' "$GRADLE_FILE" | head -n1)
-          NEW_CODE=$((VERSION_CODE_BASE + ${{ github.run_number }}))
+          NEW_CODE=$((CURRENT_CODE + 2))
           sed -i "s/versionCode\s*=\s*$CURRENT_CODE/versionCode = $NEW_CODE/" "$GRADLE_FILE"
-          echo "Set versionCode: $CURRENT_CODE -> $NEW_CODE (base $VERSION_CODE_BASE + run #${{ github.run_number }})"
+          echo "Bumped versionCode: $CURRENT_CODE -> $NEW_CODE"
 
           # Update versionName when provided as input
           VERSION_NAME="${{ github.event.inputs.version_name }}"
