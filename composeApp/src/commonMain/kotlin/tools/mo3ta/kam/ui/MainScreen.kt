@@ -1,154 +1,219 @@
 package tools.mo3ta.kam.ui
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
+import androidx.compose.animation.core.CubicBezierEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
-import androidx.compose.material3.Scaffold
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import tools.mo3ta.kam.analytics.logScreenView
-import tools.mo3ta.kam.analytics.logTabSwitch
 import tools.mo3ta.kam.data.CityRepository
 import tools.mo3ta.kam.data.PreferenceManager
+import tools.mo3ta.kam.ui.revamp.HomeScreen
+import tools.mo3ta.kam.ui.revamp.PickerSheet
+import tools.mo3ta.kam.ui.revamp.KeypadSheet
+import tools.mo3ta.kam.ui.revamp.ResultScreen
+import tools.mo3ta.kam.ui.revamp.components.KamBottomSheet
+import tools.mo3ta.kam.ui.theme.KamColors
 import tools.mo3ta.kam.ui.theme.KamTheme
-import tools.mo3ta.kam.viewmodel.CityListViewModel
-import tools.mo3ta.kam.viewmodel.CompareViewModel
-import tools.mo3ta.kam.viewmodel.ConvertViewModel
+import tools.mo3ta.kam.ui.theme.LocalKamText
+import tools.mo3ta.kam.ui.theme.RevampTheme
+import tools.mo3ta.kam.viewmodel.KeypadTarget
 import tools.mo3ta.kam.viewmodel.OnboardingViewModel
+import tools.mo3ta.kam.viewmodel.RevampScreen
+import tools.mo3ta.kam.viewmodel.RevampViewModel
 import tools.mo3ta.kam.viewmodel.SettingsViewModel
-
-private data class TabItem(val label: String, val emoji: String, val index: Int)
 
 @Composable
 fun MainScreen() {
     val repository = remember { CityRepository() }
     val preferenceManager = remember { PreferenceManager() }
-    
-    val cityListVM = remember { CityListViewModel(repository) }
-    val convertVM = remember { ConvertViewModel(repository) }
-    val compareVM = remember { CompareViewModel(repository) }
+
     val settingsVM = remember { SettingsViewModel(preferenceManager) }
     val onboardingVM = remember { OnboardingViewModel(preferenceManager) }
+    val revampVM = remember { RevampViewModel(repository, preferenceManager) }
 
     val isDarkMode by settingsVM.isDarkMode.collectAsState()
     val locale by settingsVM.locale.collectAsState()
     var isOnboarded by remember { mutableStateOf(preferenceManager.isOnboarded) }
 
+    // KamTheme provides LocalKamStrings (+ Material theme used by the settings switch).
     KamTheme(darkTheme = isDarkMode, locale = locale) {
         if (!isOnboarded) {
-            OnboardingScreen(
-                viewModel = onboardingVM,
-                onComplete = { isOnboarded = true }
-            )
+            OnboardingScreen(viewModel = onboardingVM, onComplete = { isOnboarded = true })
         } else {
-            MainAppContent(cityListVM, convertVM, compareVM, settingsVM)
+            RevampTheme {
+                RevampApp(revampVM, settingsVM)
+            }
         }
     }
 }
 
 @Composable
-private fun MainAppContent(
-    cityListVM: CityListViewModel,
-    convertVM: ConvertViewModel,
-    compareVM: CompareViewModel,
-    settingsVM: SettingsViewModel
-) {
-    var selectedTab by remember { mutableIntStateOf(0) }
-    val strings = LocalKamStrings.current
+private fun RevampApp(vm: RevampViewModel, settingsVM: SettingsViewModel) {
+    val state by vm.uiState.collectAsState()
+    var showSettings by remember { mutableStateOf(false) }
+    val easing = remember { CubicBezierEasing(0.7f, 0f, 0.2f, 1f) }
 
-    val tabs = listOf(
-        TabItem(strings.tabCities, "🏙️", 0),
-        TabItem(strings.tabConvert, "💱", 1),
-        TabItem(strings.tabCompare, "⚖️", 2),
-        TabItem(strings.tabSettings, "⚙️", 3)
-    )
+    Box(
+        Modifier
+            .fillMaxSize()
+            .background(KamColors.paper)
+            .windowInsetsPadding(WindowInsets.safeDrawing),
+    ) {
+        AnimatedContent(
+            targetState = state.screen,
+            transitionSpec = {
+                val dur = tween<androidx.compose.ui.unit.IntOffset>(420, easing = easing)
+                if (targetState == RevampScreen.RESULT) {
+                    slideInHorizontally(dur) { it } togetherWith slideOutHorizontally(dur) { -it }
+                } else {
+                    slideInHorizontally(dur) { -it } togetherWith slideOutHorizontally(dur) { it }
+                }
+            },
+            label = "screen",
+        ) { screen ->
+            when (screen) {
+                RevampScreen.HOME -> HomeScreen(
+                    state = state,
+                    onOpenPicker = vm::openPicker,
+                    onSwap = vm::swap,
+                    onEditSalary = { vm.openKeypad(KeypadTarget.SALARY) },
+                    onEditOffer = { vm.openKeypad(KeypadTarget.OFFER) },
+                    onClearOffer = vm::clearOffer,
+                    onCompare = vm::goToResult,
+                    onSettings = { showSettings = true },
+                )
+                RevampScreen.RESULT -> ResultScreen(
+                    state = state,
+                    onBack = vm::goHome,
+                )
+            }
+        }
 
-    // Log tab switches and screen views
-    LaunchedEffect(selectedTab) {
-        val tabName = tabs[selectedTab].label
-        logTabSwitch(tabName)
-        logScreenView(tabName)
+        // Overlays — render unconditionally so enter/exit both animate.
+        PickerSheet(state = state, onSelect = vm::selectCity, onClose = vm::closePicker)
+        KeypadSheet(state = state, onKey = vm::setKeypadValue, onClose = vm::closeKeypad)
+        SettingsSheet(
+            visible = showSettings,
+            settingsVM = settingsVM,
+            onClose = { showSettings = false },
+        )
     }
+}
 
-    Scaffold(
-        containerColor = MaterialTheme.colorScheme.background,
-        bottomBar = {
-            NavigationBar(
-                containerColor = MaterialTheme.colorScheme.surface,
-                tonalElevation = 16.dp,
-                modifier = Modifier.shadow(8.dp)
+@Composable
+private fun SettingsSheet(
+    visible: Boolean,
+    settingsVM: SettingsViewModel,
+    onClose: () -> Unit,
+) {
+    val strings = LocalKamStrings.current
+    val text = LocalKamText.current
+    val isDark by settingsVM.isDarkMode.collectAsState()
+    val locale by settingsVM.locale.collectAsState()
+    val uriHandler = LocalUriHandler.current
+
+    KamBottomSheet(visible = visible, onDismiss = onClose, title = strings.settingsTitle) {
+        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            // Dark mode
+            SettingRow {
+                Text(strings.settingsDarkMode, style = text.clrName, color = KamColors.ink, modifier = Modifier.weight(1f))
+                Switch(
+                    checked = isDark,
+                    onCheckedChange = { settingsVM.toggleDarkMode() },
+                    colors = SwitchDefaults.colors(
+                        checkedThumbColor = KamColors.paper,
+                        checkedTrackColor = KamColors.green,
+                        uncheckedTrackColor = KamColors.card2,
+                    ),
+                )
+            }
+            // Language
+            SettingRow {
+                Text(strings.settingsLanguage, style = text.clrName, color = KamColors.ink, modifier = Modifier.weight(1f))
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    LangPill("EN", locale == "en") { settingsVM.setLocale("en") }
+                    LangPill("AR", locale == "ar") { settingsVM.setLocale("ar") }
+                }
+            }
+            // Credits
+            Column(
+                Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(KamColors.card2)
+                    .padding(16.dp),
             ) {
-                tabs.forEach { tab ->
-                    NavigationBarItem(
-                        selected = selectedTab == tab.index,
-                        onClick = { selectedTab = tab.index },
-                        icon = {
-                            Text(
-                                text = tab.emoji,
-                                fontSize = 20.sp
-                            )
-                        },
-                        label = {
-                            Text(
-                                text = tab.label,
-                                fontWeight = if (selectedTab == tab.index) FontWeight.SemiBold else FontWeight.Normal,
-                                maxLines = 1
-                            )
-                        },
-                        colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = MaterialTheme.colorScheme.primary,
-                            selectedTextColor = MaterialTheme.colorScheme.primary,
-                            indicatorColor = MaterialTheme.colorScheme.primaryContainer,
-                            unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                            unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    )
-                }
+                Text(strings.settingsCredits, style = text.clrName, color = KamColors.ink)
+                Spacer(Modifier.height(8.dp))
+                Text(strings.settingsNumbeoDesc, style = text.ocDesc, color = KamColors.ink2)
+                Spacer(Modifier.height(12.dp))
+                Text(
+                    strings.visitNumbeo,
+                    style = text.cardBadge,
+                    color = KamColors.green,
+                    modifier = Modifier.clickable {
+                        runCatching { uriHandler.openUri("https://www.numbeo.com/") }
+                    },
+                )
             }
         }
-    ) { innerPadding ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-        ) {
-            AnimatedContent(
-                targetState = selectedTab,
-                transitionSpec = {
-                    val direction = if (targetState > initialState) 1 else -1
-                    (slideInHorizontally { it * direction } + fadeIn()) togetherWith
-                        (slideOutHorizontally { -it * direction } + fadeOut())
-                }
-            ) { tab ->
-                when (tab) {
-                    0 -> CityListScreen(viewModel = cityListVM)
-                    1 -> ConvertScreen(viewModel = convertVM)
-                    2 -> CompareScreen(viewModel = compareVM)
-                    3 -> SettingsScreen(viewModel = settingsVM)
-                }
-            }
-        }
+    }
+}
+
+@Composable
+private fun SettingRow(content: @Composable androidx.compose.foundation.layout.RowScope.() -> Unit) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(16.dp))
+            .background(KamColors.card)
+            .padding(horizontal = 16.dp, vertical = 14.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        content = content,
+    )
+}
+
+@Composable
+private fun LangPill(label: String, selected: Boolean, onClick: () -> Unit) {
+    val text = LocalKamText.current
+    Box(
+        Modifier
+            .clip(RoundedCornerShape(20.dp))
+            .background(if (selected) KamColors.green else KamColors.card2)
+            .clickable(onClick = onClick)
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(label, style = text.cardBadge, color = if (selected) KamColors.paper else KamColors.ink2)
     }
 }
